@@ -15,7 +15,7 @@ class Hall:
             self.hall.append(row)
         self.dp = [[0 for i in range(self.width)] for j in range(self.height)]
 
-    def bottom_up(self, row, col):
+    def __bottom_up(self, row, col):
         if self.dp[row][col]:
             res = self.dp[row][col]
         else:
@@ -27,23 +27,23 @@ class Hall:
                             res += self.dp[i][j]
         return res
 
-    def get_paths(self, out_row, out_col):
+    def __get_paths(self, out_row, out_col):
         self.dp[out_row][out_col] = 1
         res = [0 for j in range(self.height)]
         for col in range(self.width - 1, -1, -1):
             for row in range(self.height - 1, -1, -1):
-                self.dp[row][col] = self.bottom_up(row, col)
+                self.dp[row][col] = self.__bottom_up(row, col)
         for i in range(self.height):
             res[i] += self.dp[i][0]
         return sum(res)
 
     def find_all_paths(self):
         if self.height != 1:
-            res = self.get_paths(self.height - 1, self.width - 1)
+            res = self.__get_paths(self.height - 1, self.width - 1)
             self.dp = [[0 for i in range(self.width)] for j in range(self.height)]
-            res += self.get_paths(0, self.width - 1)
+            res += self.__get_paths(0, self.width - 1)
         else:
-            res = self.get_paths(0, self.width - 1)
+            res = self.__get_paths(0, self.width - 1)
         self.__write_res_combinations(res)
         print("Finished calculating")
 
